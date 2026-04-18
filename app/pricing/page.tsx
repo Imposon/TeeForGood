@@ -154,19 +154,17 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <motion.button
+              <button
                 onClick={() => handleSubscribe(plan.priceId)}
                 disabled={isLoading === plan.priceId}
-                className={`w-full py-4 rounded-xl font-semibold text-lg transition-all ${
+                className={`w-full py-4 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] ${
                   plan.popular
                     ? 'bg-gradient-to-r from-neon-gold to-orange-500 text-dark-bg'
                     : 'glass-card border border-white/20 text-white hover:border-neon-cyan/50'
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                } disabled:opacity-50`}
               >
                 {isLoading === plan.priceId ? 'Loading...' : 'Subscribe Now'}
-              </motion.button>
+              </button>
             </motion.div>
           ))}
         </div>

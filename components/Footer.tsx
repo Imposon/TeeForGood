@@ -113,13 +113,12 @@ export function Footer() {
                 placeholder="Enter your email"
                 className="flex-1 sm:w-64 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-neon-green/50 transition-colors"
               />
-              <motion.button
-                className="px-6 py-3 btn-neon rounded-xl font-medium whitespace-nowrap"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={() => alert('Newsletter subscription coming soon!')}
+                className="px-6 py-3 btn-neon rounded-xl font-medium whitespace-nowrap hover:scale-105 active:scale-95 transition-transform"
               >
                 Subscribe
-              </motion.button>
+              </button>
             </div>
           </div>
         </div>

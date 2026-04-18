@@ -170,12 +170,10 @@ export function DrawRewards() {
                 </div>
 
                 {/* Draw Button */}
-                <motion.button
+                <button
                   onClick={triggerDraw}
                   disabled={isDrawing}
-                  className="w-full py-4 btn-neon rounded-xl font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-50"
-                  whileHover={!isDrawing ? { scale: 1.02 } : {}}
-                  whileTap={!isDrawing ? { scale: 0.98 } : {}}
+                  className="w-full py-4 btn-neon rounded-xl font-semibold text-lg flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] transition-transform"
                 >
                   {isDrawing ? (
                     <>
@@ -193,7 +191,7 @@ export function DrawRewards() {
                       Test Your Luck
                     </>
                   )}
-                </motion.button>
+                </button>
 
                 {/* Pool Info */}
                 <div className="flex items-center justify-between mt-6 pt-6 border-t border-white/10">

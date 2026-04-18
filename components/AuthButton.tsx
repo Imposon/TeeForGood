@@ -21,14 +21,12 @@ export function AuthButton() {
   if (!isAuthenticated) {
     return (
       <>
-        <motion.button
+        <button
           onClick={() => setShowAuthModal(true)}
-          className="px-5 py-2.5 glass-card rounded-full font-medium text-white border border-white/20 hover:border-neon-cyan/50 transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="px-5 py-2.5 glass-card rounded-full font-medium text-white border border-white/20 hover:border-neon-cyan/50 hover:scale-105 active:scale-95 transition-all"
         >
           Sign In
-        </motion.button>
+        </button>
         <AuthModal 
           isOpen={showAuthModal} 
           onClose={() => setShowAuthModal(false)}
@@ -41,11 +39,9 @@ export function AuthButton() {
   return (
     <>
       <div className="relative">
-        <motion.button
+        <button
           onClick={() => setShowDropdown(!showDropdown)}
-          className="flex items-center gap-2 px-4 py-2 glass-card rounded-full border border-white/20 hover:border-neon-cyan/50 transition-colors"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="flex items-center gap-2 px-4 py-2 glass-card rounded-full border border-white/20 hover:border-neon-cyan/50 hover:scale-102 active:scale-98 transition-all"
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neon-cyan to-neon-green flex items-center justify-center">
             <User size={16} className="text-dark-bg" />
@@ -56,7 +52,7 @@ export function AuthButton() {
           {user?.subscriptionStatus === 'active' && (
             <Crown size={14} className="text-neon-gold" />
           )}
-        </motion.button>
+        </button>
 
         {showDropdown && (
           <motion.div

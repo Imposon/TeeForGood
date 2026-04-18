@@ -169,33 +169,8 @@ export function PricingCard({
   const [showAuthModal, setShowAuthModal] = useState(false)
 
   const handleSubscribe = async () => {
-    if (!isAuthenticated) {
-      setShowAuthModal(true)
-      return
-    }
-
-    if (user?.subscriptionStatus === 'active') {
-      router.push('/dashboard')
-      return
-    }
-
-    setIsLoading(true)
-    try {
-      const response = await fetch('/api/subscription/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan }),
-      })
-
-      const data = await response.json()
-      if (data.url) {
-        window.location.href = data.url
-      }
-    } catch (error) {
-      console.error('Checkout error:', error)
-    } finally {
-      setIsLoading(false)
-    }
+    // Always go to pricing page - no auth required to view
+    router.push('/pricing')
   }
 
   const isSubscribed = user?.subscriptionStatus === 'active'
@@ -238,37 +213,17 @@ export function PricingCard({
           ))}
         </ul>
 
-        <motion.button
+        <button
           onClick={handleSubscribe}
-          disabled={isLoading || isSubscribed}
-          className={`w-full py-4 rounded-xl font-semibold text-lg transition-all ${
-            isSubscribed
-              ? 'bg-neon-green/20 text-neon-green border border-neon-green/30'
-              : popular
-                ? 'bg-gradient-to-r from-neon-gold to-orange-500 text-dark-bg'
-                : 'glass-card border border-white/20 text-white hover:border-neon-cyan/50'
-          } disabled:opacity-50`}
-          whileHover={!isSubscribed ? { scale: 1.02 } : {}}
-          whileTap={!isSubscribed ? { scale: 0.98 } : {}}
+          className={`w-full py-4 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] ${
+            popular
+              ? 'bg-gradient-to-r from-neon-gold to-orange-500 text-dark-bg'
+              : 'glass-card border border-white/20 text-white hover:border-neon-cyan/50'
+          }`}
         >
-          {isLoading ? (
-            <span className="flex items-center justify-center gap-2">
-              <Loader2 size={18} className="animate-spin" />
-              Processing...
-            </span>
-          ) : isSubscribed ? (
-            'Already Subscribed'
-          ) : (
-            'Subscribe Now'
-          )}
-        </motion.button>
+          View Plan
+        </button>
       </div>
-
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        defaultView="signup"
-      />
     </>
   )
 }
