@@ -43,6 +43,7 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('Signup form submitted', formData)
     
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
       setError('Please fill in all fields')
@@ -57,14 +58,17 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
     setError('')
 
     try {
+      console.log('Calling signup...')
       await signup({
         email: formData.email,
         password: formData.password,
         firstName: formData.firstName,
         lastName: formData.lastName,
       })
+      console.log('Signup success')
       onClose()
     } catch (err: any) {
+      console.error('Signup error:', err)
       setError(err.message || 'Signup failed')
     } finally {
       setIsLoading(false)
@@ -105,7 +109,7 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
           onClick={(e) => e.stopPropagation()}
         >
           {/* Background Glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-neon-cyan/20 rounded-full blur-[100px] -z-10" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-neon-cyan/20 rounded-full blur-[100px] -z-10 pointer-events-none" />
 
           {/* Close Button */}
           <button
@@ -148,10 +152,10 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
           {/* Login Form */}
           {view === 'login' && (
             <motion.form
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               onSubmit={handleLogin}
-              className="space-y-4"
+              className="space-y-4 pointer-events-auto"
             >
               <div>
                 <label className="text-sm text-white/50 mb-1.5 block">Email</label>
@@ -196,12 +200,10 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
                 </button>
               </div>
 
-              <motion.button
+              <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 bg-gradient-to-r from-neon-cyan to-blue-500 rounded-xl font-semibold text-white shadow-lg shadow-neon-cyan/25 disabled:opacity-50 flex items-center justify-center gap-2"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="w-full py-3.5 bg-gradient-to-r from-neon-cyan to-blue-500 rounded-xl font-semibold text-white shadow-lg shadow-neon-cyan/25 disabled:opacity-50 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-transform"
               >
                 {isLoading ? (
                   <Loader2 size={20} className="animate-spin" />
@@ -211,7 +213,7 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
                     <ArrowRight size={18} />
                   </>
                 )}
-              </motion.button>
+              </button>
 
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center">
@@ -241,7 +243,7 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               onSubmit={handleSignup}
-              className="space-y-4"
+              className="space-y-4 pointer-events-auto"
             >
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -302,12 +304,10 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
                 </div>
               </div>
 
-              <motion.button
+              <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 bg-gradient-to-r from-neon-green to-neon-cyan rounded-xl font-semibold text-dark-bg shadow-lg shadow-neon-green/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="w-full py-3.5 bg-gradient-to-r from-neon-green to-neon-cyan rounded-xl font-semibold text-dark-bg shadow-lg shadow-neon-green/25 disabled:opacity-50 flex items-center justify-center gap-2 mt-2 hover:scale-[1.02] active:scale-[0.98] transition-transform"
               >
                 {isLoading ? (
                   <Loader2 size={18} className="animate-spin" />
@@ -317,7 +317,7 @@ export function AuthModal({ isOpen, onClose, defaultView = 'login' }: AuthModalP
                     <ArrowRight size={18} />
                   </>
                 )}
-              </motion.button>
+              </button>
 
               <p className="text-center text-sm text-white/50 mt-4">
                 Already have an account?{' '}
