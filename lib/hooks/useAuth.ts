@@ -59,15 +59,26 @@ export function useAuth() {
   }, [fetchUser])
 
   const login = async (email: string, password: string) => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
+    let response
+    try {
+      response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+    } catch (networkError) {
+      throw new Error('Network error - please check your connection')
+    }
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || 'Login failed')
+      let errorMessage = 'Login failed'
+      try {
+        const error = await response.json()
+        errorMessage = error.error || errorMessage
+      } catch {
+        errorMessage = `Server error (${response.status})`
+      }
+      throw new Error(errorMessage)
     }
 
     const data = await response.json()
@@ -87,15 +98,26 @@ export function useAuth() {
     charityId?: string
     charityPercentage?: number
   }) => {
-    const response = await fetch('/api/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    })
+    let response
+    try {
+      response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      })
+    } catch (networkError) {
+      throw new Error('Network error - please check your connection')
+    }
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error || 'Signup failed')
+      let errorMessage = 'Signup failed'
+      try {
+        const error = await response.json()
+        errorMessage = error.error || errorMessage
+      } catch {
+        errorMessage = `Server error (${response.status})`
+      }
+      throw new Error(errorMessage)
     }
 
     const data = await response.json()
