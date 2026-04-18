@@ -3,8 +3,10 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { ArrowRight, Sparkles, Star, Zap } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export function CTASection() {
+  const router = useRouter()
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, margin: '-100px' })
 
@@ -73,26 +75,21 @@ export function CTASection() {
               transition={{ delay: 0.5, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <motion.button
-                className="group flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-green to-neon-cyan text-dark-bg font-bold rounded-full text-lg shadow-lg shadow-neon-green/20"
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: '0 0 40px rgba(0, 255, 136, 0.4)'
-                }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={() => router.push('/pricing')}
+                className="group flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-neon-green to-neon-cyan text-dark-bg font-bold rounded-full text-lg shadow-lg shadow-neon-green/20 hover:scale-105 active:scale-95 transition-all"
               >
                 Subscribe Now - $19/month
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+              </button>
               
-              <motion.button
-                className="flex items-center justify-center gap-2 px-8 py-4 glass-card rounded-full font-medium text-lg text-white/80 hover:text-white transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={() => router.push('/pricing')}
+                className="flex items-center justify-center gap-2 px-8 py-4 glass-card rounded-full font-medium text-lg text-white/80 hover:text-white hover:scale-105 active:scale-95 transition-all"
               >
                 <Zap size={20} className="text-neon-cyan" />
                 View Pricing Plans
-              </motion.button>
+              </button>
             </motion.div>
 
             {/* Trust badges */}

@@ -81,13 +81,12 @@ export function Navigation() {
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              className="md:hidden p-2 text-white/70 hover:text-white"
+            <button
+              className="md:hidden p-2 text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileTap={{ scale: 0.9 }}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
+            </button>
           </div>
         </div>
       </motion.nav>

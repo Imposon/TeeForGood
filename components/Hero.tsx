@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, Target, Heart } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export function Hero() {
+  const router = useRouter()
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background glow effects */}
@@ -62,23 +64,21 @@ export function Hero() {
               transition={{ delay: 0.5, duration: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <motion.button
-                className="group flex items-center justify-center gap-2 px-8 py-4 btn-neon rounded-full font-semibold text-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={() => router.push('/pricing')}
+                className="group flex items-center justify-center gap-2 px-8 py-4 btn-neon rounded-full font-semibold text-lg hover:scale-105 active:scale-95 transition-transform"
               >
                 Subscribe Now
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+              </button>
               
-              <motion.button
-                className="flex items-center justify-center gap-2 px-8 py-4 glass-card rounded-full font-medium text-lg text-white/80 hover:text-white transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                onClick={() => router.push('/#rewards')}
+                className="flex items-center justify-center gap-2 px-8 py-4 glass-card rounded-full font-medium text-lg text-white/80 hover:text-white hover:scale-105 active:scale-95 transition-all"
               >
                 <Target size={20} />
                 See How It Works
-              </motion.button>
+              </button>
             </motion.div>
 
             {/* Stats */}
