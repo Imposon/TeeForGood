@@ -24,9 +24,9 @@ export function SubscribeButton({
   const [showAuthModal, setShowAuthModal] = useState(false)
 
   const handleSubscribe = async () => {
-    // If not logged in, show auth modal
+    // If not logged in, go to pricing page
     if (!isAuthenticated) {
-      setShowAuthModal(true)
+      router.push('/pricing')
       return
     }
 
@@ -124,7 +124,7 @@ export function SubscribeButton({
 
   return (
     <>
-      <motion.button
+      <button
         onClick={handleSubscribe}
         disabled={isLoading || isSubscribed}
         className={`
@@ -133,14 +133,12 @@ export function SubscribeButton({
             ? 'bg-neon-green/20 text-neon-green border border-neon-green/30 cursor-default' 
             : 'bg-gradient-to-r from-neon-gold to-orange-500 text-dark-bg font-semibold shadow-lg shadow-neon-gold/25 hover:shadow-neon-gold/40'
           }
-          flex items-center justify-center gap-2 transition-all disabled:opacity-70
+          flex items-center justify-center gap-2 transition-all disabled:opacity-70 hover:scale-[1.02] active:scale-[0.98]
           ${className}
         `}
-        whileHover={!isSubscribed ? { scale: 1.02 } : {}}
-        whileTap={!isSubscribed ? { scale: 0.98 } : {}}
       >
         {getButtonContent()}
-      </motion.button>
+      </button>
 
       <AuthModal
         isOpen={showAuthModal}

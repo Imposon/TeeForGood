@@ -12,13 +12,12 @@ import Link from 'next/link'
 // Glass Card Component
 function GlassCard({ children, className = '', onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
   return (
-    <motion.div
-      className={`glass-card p-6 rounded-2xl border border-white/10 ${className}`}
-      whileHover={onClick ? { y: -4, transition: { duration: 0.2 } } : {}}
+    <div
+      className={`glass-card p-6 rounded-2xl border border-white/10 ${className} ${onClick ? 'hover:-translate-y-1 transition-transform cursor-pointer' : ''}`}
       onClick={onClick}
     >
       {children}
-    </motion.div>
+    </div>
   )
 }
 
@@ -183,15 +182,13 @@ export default function Dashboard() {
                   <Trophy size={24} className="text-neon-green" />
                   <h2 className="text-xl font-bold text-white">Recent Scores</h2>
                 </div>
-                <motion.button
+                <button
                   onClick={() => setIsScoreModalOpen(true)}
-                  className="flex items-center gap-2 px-4 py-2 btn-neon rounded-lg text-sm font-medium"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-4 py-2 btn-neon rounded-lg text-sm font-medium hover:scale-105 active:scale-95 transition-transform"
                 >
                   <Plus size={16} />
                   Add Score
-                </motion.button>
+                </button>
               </div>
 
               <div className="space-y-3">
@@ -335,13 +332,11 @@ export default function Dashboard() {
                 <div className="text-sm text-white/60 mb-2">Next Draw In</div>
                 <div className="text-3xl font-bold gradient-text mb-4">2d 14h 32m</div>
                 <div className="text-sm text-white/50 mb-4">1,247 participants • $15,000 pool</div>
-                <motion.button
-                  className="w-full py-3 btn-neon rounded-xl font-semibold"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                <button
+                  className="w-full py-3 btn-neon rounded-xl font-semibold hover:scale-102 active:scale-98 transition-transform"
                 >
                   View Draw Details
-                </motion.button>
+                </button>
               </div>
             </GlassCard>
           </div>
