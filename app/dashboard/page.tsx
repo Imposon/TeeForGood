@@ -22,8 +22,46 @@ function GlassCard({ children, className = '', onClick }: { children: React.Reac
 }
 
 // Score Entry Modal
-function ScoreEntryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function ScoreEntryModal({ isOpen, onClose, onSave }: { isOpen: boolean; onClose: () => void; onSave: (score: any) => void }) {
+  const [score, setScore] = useState('')
+  const [course, setCourse] = useState('')
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [isSaving, setIsSaving] = useState(false)
+
   if (!isOpen) return null
+
+  const handleSave = async () => {
+    if (!score || !course) return
+    
+    setIsSaving(true)
+    try {
+      const response = await fetch('/api/scores', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          score: parseInt(score),
+          course,
+          date,
+          par: 72
+        })
+      })
+      
+      if (response.ok) {
+        const savedScore = await response.json()
+        onSave(savedScore)
+        onClose()
+        setScore('')
+        setCourse('')
+      } else {
+        alert('Failed to save score')
+      }
+    } catch (error) {
+      console.error('Error saving score:', error)
+      alert('Error saving score')
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -50,6 +88,8 @@ function ScoreEntryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               <input 
                 type="number" 
                 placeholder="72"
+                value={score}
+                onChange={(e) => setScore(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-center text-3xl font-bold focus:outline-none focus:border-neon-green/50 transition-colors"
               />
             </div>
@@ -58,6 +98,8 @@ function ScoreEntryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               <input 
                 type="text" 
                 placeholder="Pine Valley Golf Club"
+                value={course}
+                onChange={(e) => setCourse(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-neon-green/50 transition-colors"
               />
             </div>
@@ -65,6 +107,8 @@ function ScoreEntryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               <label className="text-sm text-white/50 mb-2 block">Date</label>
               <input 
                 type="date" 
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-neon-green/50 transition-colors"
               />
             </div>
@@ -73,15 +117,17 @@ function ScoreEntryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           <div className="flex gap-3 mt-6">
             <button 
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition-colors"
+              disabled={isSaving}
+              className="flex-1 px-4 py-3 rounded-xl border border-white/10 text-white/70 hover:text-white hover:border-white/30 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button 
-              className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-neon-green to-neon-cyan text-dark-bg font-bold"
-              onClick={onClose}
+              onClick={handleSave}
+              disabled={isSaving || !score || !course}
+              className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-neon-green to-neon-cyan text-dark-bg font-bold disabled:opacity-50"
             >
-              Save Score
+              {isSaving ? 'Saving...' : 'Save Score'}
             </button>
           </div>
         </motion.div>
@@ -344,7 +390,14 @@ export default function Dashboard() {
       </div>
 
       {/* Score Entry Modal */}
-      <ScoreEntryModal isOpen={isScoreModalOpen} onClose={() => setIsScoreModalOpen(false)} />
+      <ScoreEntryModal 
+        isOpen={isScoreModalOpen} 
+        onClose={() => setIsScoreModalOpen(false)} 
+        onSave={(newScore) => {
+          // Add new score to the list
+          console.log('Score saved:', newScore)
+        }}
+      />
     </main>
   )
 }
